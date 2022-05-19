@@ -50,3 +50,8 @@ body{
     justify-content: center;
     text-align: center;
   }
+
+  .grid-container .cell:hover{
+      background-color: yellow;
+      cursor: pointer;
+  }
