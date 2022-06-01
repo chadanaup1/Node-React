@@ -67,3 +67,8 @@ body {
     background-color: blanchedalmond;
     cursor: pointer;
 }
+
+#Restart { 
+    text-align: center;
+    color: red;
+}
