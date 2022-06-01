@@ -19,6 +19,7 @@ a1.addEventListener('click', function() {
 
 const elements = ['X', 'O']
 let current_player = 0
+let winner = false
 
 const cells = document.querySelectorAll('.cell')
 
@@ -29,4 +30,8 @@ cells.forEach(cell => {
           e.target.innerHTML = elements[current_player]
     })
 })
+
+if(winner){
+    let msg= document.querySelectorAll()
+}
 
