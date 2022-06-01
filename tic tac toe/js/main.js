@@ -127,8 +127,6 @@ cells.forEach(cell => {
                let score = parseInt(document.querySelector('#player'+(current_player+1)+' .score').innerHTML)
                score++
                document.querySelector('#player'+(current_player+1)+' .score').innerHTML = score
-              
-               
             }
 
             // Switch of players
