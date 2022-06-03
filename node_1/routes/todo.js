@@ -13,6 +13,9 @@ Router.post('/', (req,res) => {
     const {todo} = req.body
 
    // console.log("body: ", req.body)
+   if(todos != null){
+       
+   }
     todos.push(todo)
     res.status(200).json(todo)
 })
