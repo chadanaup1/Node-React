@@ -1,22 +1,49 @@
 const express = require('express')
-let bodyParser =  require('body-parser')
-
-const todoRouter = require('./routes/todo')
 const morgan = require('morgan')
+const mongoose = require('mongoose')
+
+try {
+    mongoose.connect('mongodb://127.0.0.1:27018/epita', {
+        authSource: "admin",
+        user: "root",
+        pass: "example",
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    })
+    console.log('Connect to DB !')
+} catch (error) {
+    console.log("Error DB connection: ", error)
+}
+
+const todoRouter = require('./routes/todoRoute')
+const messageRouter = require('./routes/messageRoute')
 
 const app = express()
 app.use(morgan('dev'))
 app.use(express.json())
-/*app.use(bodyParser.urlencoded({extended:true}))*/
 
-app.get('/', function (request,response){
-    response.status(200).send('It works !')
+app.get('/', function (request, response) {
+    return response.status(200).send('It works !')
 })
- 
+
+app.post('/test', (request, response) => {
+    const {name} = request.body
+
+    if (!name && name == "") {
+        return response.status(500).json('You have to give a name')
+    }
+
+    return response.status(200).json(`My name is ${name}`)
+})
+
+app.get('/test', (request, response) => {
+    return response.status(200).json('It works on /test !')
+})
+
 app.use('/todos', todoRouter)
+app.use('/messages', messageRouter)
 
 const PORT = 4500
-
-app.listen(4500, function () {
-    console.log(`server is listening on http://localhost:${PORT}`)
+app.listen(PORT, () => {
+    console.log('Server running on http://127.0.0.1:' + PORT)
 })
