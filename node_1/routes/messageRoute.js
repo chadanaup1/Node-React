@@ -6,7 +6,7 @@ const Router = express.Router()
 Router.get('/', async (req, res) => {
     messages = await messageModel.find({})
     return res.status(200).json(messages)
-})
+});
 
 Router.post('/', async (req, res) => {
     const {message} = req.body
@@ -14,32 +14,26 @@ Router.post('/', async (req, res) => {
     const messageObj = new messageModel(message)
     await messageObj.save()
     return res.status(200).json(messageObj)
+});
+
+Router.put('/:messageId', async (req, res) => {
+    const {name} = req.body.message
+    const {messageId} = req.params
+
+    const message = await messageModel.findByIdAndUpdate(messageId, {
+        name: name
+    }, {
+        new: true
+    })
+
+    return res.status(200).json(message)
 })
 
-Router.put('/:id', 
-   
-    { json: {
-        "name": "test",
-        "label": "test2"
-      }
-    },
-    
-    function (error, response, body) {
-        if (!error && response.statusCode == 200) {
-            console.log(body);
-            console.log(response.statusCode);
-        }
-    
+Router.delete('/:messageId', async (req, res) => {
+    const {messageId} = req.params
+
+    await messageModel.findOneAndDelete({_id: messageId})
+    return res.status(200).json({"msg": "Message well deleted !"})
 })
 
-Router.delete('/:id', (req, res) => {
-    const { id } = req.params;
-   
-    const indes = projects.findIndex(p => p.id == id);
-   
-    projects.splice(indes, 1);
-   
-    return res.send();
-   })
-
-module.exports = Router
+module.exports = Router;
