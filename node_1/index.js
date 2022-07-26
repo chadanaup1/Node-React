@@ -3,6 +3,7 @@ const express = require('express')
 const morgan = require('morgan')
 const mongoose = require('mongoose')
 const session = require('express-session')
+const cors = require('cors')
 
 try {
     mongoose.connect(process.env.DB_URL, {
@@ -20,15 +21,20 @@ try {
 const todoRouter = require('./routes/todoRoute')
 const messageRouter = require('./routes/messageRoute')
 const authRouter = require('./routes/authRoute')
+const userRouter = require('./routes/userRoute')
 
 const app = express()
+app.use(cors({
+    credentials: true,
+    origin: 'http://localhost:3000'
+}))
 
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: {
-        secure: false,
+        secure: (process.env.SESSION_SECURE === 'true') ? true : false,
         httpOnly: true
     }
 }))
@@ -57,6 +63,7 @@ app.get('/test', (request, response) => {
 app.use('/todos', todoRouter)
 app.use('/messages', messageRouter)
 app.use('/', authRouter)
+app.use('/users', userRouter)
 
 const PORT = 4500
 app.listen(PORT, () => {

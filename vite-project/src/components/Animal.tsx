@@ -1,16 +1,16 @@
 import React from 'react'
 
-function Animal() {
-    let animals:string[] = ['Lion', "Tiger"]
+const Animal = () => {
+    let animals:string[] = ["Lion", "Tiger", "Cat"]
+
   return (<>
-    <div>
-      Animal
-    </div>
+    <div>My Animal List</div>
     <ul>
-        {animals.map((animal,index) => 
-        <li key={`animal-${index}`}>{ animal }</li>)} 
+        { animals.map((animal, index) => 
+            <li key={`animals-${index}`}>{ animal }</li>
+        )}
     </ul>
-    </> )
+  </>)
 }
 
 export default Animal

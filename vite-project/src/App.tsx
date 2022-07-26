@@ -1,32 +1,28 @@
-import {
-    BrowserRouter,
-    Routes,
-    Route,
-    Link
-} from "react-router-dom"
-
 import React from 'react'
-//import Greetings from "./components/Greeting"
-import Animal from './components/Animal'
-import HomePage from './pages/HomePage'
-import PhotosPages from "./pages/PhotosPages"
+import { Routes, Route, Link } from "react-router-dom"
 
-function App() {
+import Home from "./pages/HomePage"
+import ChuckPage from './pages/ChuckPage'
+import ResgiterPage from './pages/ResgiterPage'
+import LoginPage from './pages/LoginPage'
+import MessagesPage from './pages/MessagesPage'
+import MessagesDeletePage from './pages/MessagesDeletePage'
+import MessagesEditPage from './pages/MessagesEditPage'
+import Default from './layouts/Default'
+import Auth from './layouts/Auth'
+
+const App = () => {
   return (<>
-        <div>App</div>
-        <div id="nav">
-            <Link to="/">Home</Link>
-            <Link to="/photos">PhotosPages</Link>
-        </div>
-        
-        <div className='container'>
-            <Routes>
-                <Route path="/" element={<HomePage/>}/>
-                <Route path="/photos" element={<PhotosPages/>}/>
-            </Routes>
-        </div>
-     </>)
-  
+      <Routes>
+        <Route path="/" element={<Default><Home /></Default>} />
+        <Route path="/chuck" element={<Default><ChuckPage /></Default>} />
+        <Route path="/messages" element={<Default><MessagesPage /></Default>} />
+        <Route path="/messages/:messageId/delete" element={<Default><MessagesDeletePage /></Default>} />
+        <Route path="/messages/:messageId/edit" element={<Default><MessagesEditPage /></Default>} />
+        <Route path="/register" element={<Auth><ResgiterPage /></Auth>} />
+        <Route path="/login" element={<Auth><LoginPage /></Auth>} />
+      </Routes>
+  </>)
 }
 
 export default App

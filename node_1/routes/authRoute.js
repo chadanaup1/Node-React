@@ -55,13 +55,7 @@ Router.post('/login', async (req, res) => {
             }
 
             req.session.user = {
-                "_id": user._id,
-                "username": user.username,
-                "email": user.email,
-                "active": user.active,
-                "created_at": user.created_at,
-                "updated_at": user.updated_at,
-                "__v": user.__v
+                "_id": user._id
             }
 
             return res.status(200).json({'msg': 'User identified !'})
@@ -73,12 +67,33 @@ Router.post('/login', async (req, res) => {
     }
 })
 
-Router.get('/me', (req, res) => {
+Router.get('/me', async (req, res) => {
     if (req.session.user) {
-        return res.status(200).json(req.session.user)
+
+        const user = await userModel.findById(req.session.user._id, {
+            'password': 0
+        }).populate('messages')
+
+        if (!user) {
+            return res.status(500).json({"msg": "You are not authenticated !"})
+        }
+
+        if (!user.active) {
+            return res.status(500).json({'msg': 'User not active !'})
+        }
+
+        return res.status(200).json(user)
     }
 
     return res.status(500).json({"msg": "You are not authenticated !"})
+})
+
+Router.get('/logout', (req, res) => {
+    if (req.session.user) {
+        delete req.session
+    }
+
+    return res.status(200).json({'msg': 'Disconnexion !'})
 })
 
 module.exports = Router
